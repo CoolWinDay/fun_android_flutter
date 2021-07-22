@@ -19,7 +19,7 @@ class ThirdAppUtils {
     if (await canLaunch(scheme)) {
       return scheme;
     } else {
-      throw 'Could not launch $url';
+      // throw 'Could not launch $url';
     }
   }
 

@@ -95,7 +95,7 @@ class _ProjectPageState extends State<ProjectPage>
                       ),
                       body: TabBarView(
                         children: List.generate(treeList.length,
-                            (index) => ArticleListPage(treeList[index].id)),
+                            (index) => ArticleListPage(treeList[index].id, 0)),
                       ),
                     );
                   },

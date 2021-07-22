@@ -2,6 +2,7 @@ import 'package:fun_android/model/article.dart';
 import 'package:fun_android/model/banner.dart';
 import 'package:fun_android/provider/view_state_refresh_list_model.dart';
 import 'package:fun_android/service/wan_android_repository.dart';
+import 'package:fun_android/service/sfcv_repository.dart';
 
 import 'favourite_model.dart';
 
@@ -17,10 +18,10 @@ class HomeModel extends ViewStateRefreshListModel {
   Future<List> loadData({int pageNum}) async {
     List<Future> futures = [];
     if (pageNum == ViewStateRefreshListModel.pageNumFirst) {
-      futures.add(WanAndroidRepository.fetchBanners());
-      futures.add(WanAndroidRepository.fetchTopArticles());
+      futures.add(SfcvRepository.fetchBanners());
+      futures.add(SfcvRepository.fetchTopArticles());
     }
-    futures.add(WanAndroidRepository.fetchArticles(pageNum));
+    futures.add(SfcvRepository.fetchArticles(pageNum, sticky: false));
 
     var result = await Future.wait(futures);
     if (pageNum == ViewStateRefreshListModel.pageNumFirst) {

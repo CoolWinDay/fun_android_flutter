@@ -16,7 +16,7 @@ class StructurePage extends StatefulWidget {
 
 class _StructurePageState extends State<StructurePage>
     with AutomaticKeepAliveClientMixin {
-  List<String> tabs = ['体系', '导航'];
+  List<String> tabs = ['分类', '标签'];
 
   @override
   bool get wantKeepAlive => true;
@@ -38,7 +38,7 @@ class _StructurePageState extends State<StructurePage>
                         )),
               )),
           body: TabBarView(
-              children: [StructureCategoryList(), NavigationSiteCategoryList()])),
+              children: [StructureCategoryList(), StructureTagList()])),
     );
   }
 }
@@ -103,7 +103,7 @@ class StructureCategoryWidget extends StatelessWidget {
                   (index) => ActionChip(
                         onPressed: () {
                           Navigator.of(context).pushNamed(RouteName.structureList,
-                              arguments: [tree, index]);
+                              arguments: [tree, index, 0]);
                         },
                         label: Text(
                           tree.children[index].name,
@@ -187,6 +187,80 @@ class NavigationSiteCategoryWidget extends StatelessWidget {
                           maxLines: 1,
                         ),
                       )))
+        ],
+      ),
+    );
+  }
+}
+
+/// 体系->标签
+class StructureTagList extends StatefulWidget {
+  @override
+  _StructureTagListState createState() => _StructureTagListState();
+}
+
+class _StructureTagListState extends State<StructureTagList>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return ProviderWidget<StructureTagModel>(
+        model: StructureTagModel(),
+        onModelReady: (model) {
+          model.initData();
+        },
+        builder: (context, model, child) {
+          if (model.isBusy) {
+            return ViewStateBusyWidget();
+          } else if (model.isError && model.list.isEmpty) {
+            return ViewStateErrorWidget(error: model.viewStateError, onPressed: model.initData);
+          }
+          return Scrollbar(
+            child: ListView.builder(
+                padding: EdgeInsets.all(15),
+                itemCount: model.list.length,
+                itemBuilder: (context, index) {
+                  Tree item = model.list[index];
+                  return StructureTagWidget(item);
+                }),
+          );
+        });
+  }
+}
+
+class StructureTagWidget extends StatelessWidget {
+  final Tree tree;
+
+  StructureTagWidget(this.tree);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            tree.name,
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+          Wrap(
+              spacing: 10,
+              children: List.generate(
+                  tree.children.length,
+                      (index) => ActionChip(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RouteName.structureList,
+                          arguments: [tree, index, 1]);
+                    },
+                    label: Text(
+                      tree.children[index].name,
+                      maxLines: 1,
+                    ),
+                  )))
         ],
       ),
     );

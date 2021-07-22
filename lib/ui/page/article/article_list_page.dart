@@ -15,8 +15,9 @@ import 'package:fun_android/view_model/structure_model.dart';
 class ArticleListPage extends StatefulWidget {
   /// 目录id
   final int cid;
+  final int type;
 
-  ArticleListPage(this.cid);
+  ArticleListPage(this.cid, this.type);
 
   @override
   _ArticleListPageState createState() => _ArticleListPageState();
@@ -31,7 +32,7 @@ class _ArticleListPageState extends State<ArticleListPage>
   Widget build(BuildContext context) {
     super.build(context);
     return ProviderWidget<StructureListModel>(
-      model: StructureListModel(widget.cid),
+      model: StructureListModel(widget.cid, widget.type),
       onModelReady: (model) => model.initData(),
       builder: (context, model, child) {
         if (model.isBusy) {
@@ -66,8 +67,9 @@ class _ArticleListPageState extends State<ArticleListPage>
 class ArticleCategoryTabPage extends StatelessWidget {
   final Tree tree;
   final int index;
+  final int type;   // 0分类；1标签
 
-  ArticleCategoryTabPage(this.tree, this.index);
+  ArticleCategoryTabPage(this.tree, this.index, this.type);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,7 @@ class ArticleCategoryTabPage extends StatelessWidget {
           ),
           body: TabBarView(
             children: List.generate(tree.children.length,
-                (index) => ArticleListPage(tree.children[index].id)),
+                (index) => ArticleListPage(tree.children[index].id, type)),
           )),
     );
   }

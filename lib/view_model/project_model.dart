@@ -2,6 +2,7 @@ import 'package:fun_android/model/article.dart';
 import 'package:fun_android/model/tree.dart';
 import 'package:fun_android/provider/view_state_refresh_list_model.dart';
 import 'package:fun_android/provider/view_state_list_model.dart';
+import 'package:fun_android/service/sfcv_repository.dart';
 import 'package:fun_android/service/wan_android_repository.dart';
 
 import 'favourite_model.dart';
@@ -9,7 +10,7 @@ import 'favourite_model.dart';
 class ProjectCategoryModel extends ViewStateListModel<Tree> {
   @override
   Future<List<Tree>> loadData() async {
-    return await WanAndroidRepository.fetchProjectCategories();
+    return await SfcvRepository.fetchProjectCategories();
   }
 }
 

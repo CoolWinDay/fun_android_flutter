@@ -63,8 +63,9 @@ class MyRouter {
         var list = settings.arguments as List;
         Tree tree = list[0] as Tree;
         int index = list[1];
+        int type = list[2];
         return CupertinoPageRoute(
-            builder: (_) => ArticleCategoryTabPage(tree, index));
+            builder: (_) => ArticleCategoryTabPage(tree, index, type));
       case RouteName.favouriteList:
         return CupertinoPageRoute(builder: (_) => FavouriteListPage());
       case RouteName.setting:

@@ -21,6 +21,24 @@ class Tree {
         userControlSetTop = map["userControlSetTop"],
         visible = map["visible"];
 
+  Tree.fromJsonMapSfcv(Map<String, dynamic> map)
+      : children = [],
+        id = map["id"],
+        name = StringUtils.urlDecoder(map["name"]),
+        order = map["order"],
+        parentChapterId = map["parent"],
+        userControlSetTop = false,
+        visible = 1;
+
+  Tree.empty()
+      : children = [],
+        id = 0,
+        name = '',
+        order = 0,
+        parentChapterId = 0,
+        userControlSetTop = false,
+        visible = 1;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['children'] =
