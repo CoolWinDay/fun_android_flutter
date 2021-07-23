@@ -1,5 +1,6 @@
 import 'package:fun_android/config/storage_manager.dart';
 import 'package:fun_android/provider/view_state_model.dart';
+import 'package:fun_android/service/sfcv_repository.dart';
 import 'package:fun_android/service/wan_android_repository.dart';
 
 import 'user_model.dart';
@@ -18,7 +19,7 @@ class LoginModel extends ViewStateModel {
   Future<bool> login(loginName, password) async {
     setBusy();
     try {
-      var user = await WanAndroidRepository.login(loginName, password);
+      var user = await SfcvRepository.login(loginName, password);
       userModel.saveUser(user);
       StorageManager.sharedPreferences
           .setString(kLoginName, userModel.user.username);

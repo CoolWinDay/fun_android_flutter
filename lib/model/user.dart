@@ -26,6 +26,19 @@ class User {
 		type = map["type"],
 		username = map["username"];
 
+	User.fromJsonMapSfcv(Map<String, dynamic> map):
+				email = map["user_email"],
+				nickname = map["user_display_name"],
+				token = map["token"],
+				username = map["user_nicename"],
+				admin = map["admin"],
+				chapterTops = [],
+				collectIds = [],
+				icon = map["icon"],
+				id = map["id"],
+				password = map["password"],
+				type = map["type"];
+
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
 		data['admin'] = admin;

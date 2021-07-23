@@ -91,8 +91,8 @@ class SfcvRepository {
 
   // 体系分类
   static Future fetchProjectCategories() async {
-    var response = await http.get('project/tree/json');
-    return response.data.map<Tree>((item) => Tree.fromJsonMap(item)).toList();
+    var response = await sfcvHttp.get('wp-json/wp/v2/categories');
+    return response.data.map<Tree>((item) => Tree.fromJsonMapSfcv(item)).toList();
   }
 
   // 导航
@@ -139,20 +139,20 @@ class SfcvRepository {
   /// 登录
   /// [Http._init] 添加了拦截器 设置了自动cookie.
   static Future login(String username, String password) async {
-    var response = await http.post<Map>('user/login', queryParameters: {
+    var response = await sfcvHttp.post<Map>('wp-json/jwt-auth/v1/token', queryParameters: {
       'username': username,
       'password': password,
     });
-    return User.fromJsonMap(response.data);
+    return User.fromJsonMapSfcv(response.data);
   }
 
   /// 注册
   static Future register(
       String username, String password, String rePassword) async {
-    var response = await http.post<Map>('user/register', queryParameters: {
+    var response = await sfcvHttp.post<Map>('wp-json/wp/v2/users', queryParameters: {
       'username': username,
       'password': password,
-      'repassword': rePassword,
+      'email': DateTime.now().millisecondsSinceEpoch.toString() + '@qq.com',
     });
     return User.fromJsonMap(response.data);
   }

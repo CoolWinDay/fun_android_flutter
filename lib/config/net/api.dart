@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:fun_android/model/user.dart';
 import 'package:fun_android/utils/platform_utils.dart';
+import 'package:fun_android/view_model/user_model.dart';
 
 export 'package:dio/dio.dart';
 
@@ -41,6 +43,11 @@ class HeaderInterceptor extends InterceptorsWrapper {
       });
     options.headers['version'] = version;
     options.headers['platform'] = Platform.operatingSystem;
+    User user = UserModel().user;
+    if(user != null) {
+      options.headers['Authorization'] = 'Bearer ' + user.token;
+    }
+
     return options;
   }
 }
