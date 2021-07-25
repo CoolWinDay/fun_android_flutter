@@ -33,7 +33,7 @@ class User {
 				username = map["user_nicename"],
 				admin = map["admin"],
 				chapterTops = [],
-				collectIds = [],
+				collectIds = map["collect_ids"],
 				icon = map["icon"],
 				id = map["id"],
 				password = map["password"],

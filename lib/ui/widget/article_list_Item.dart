@@ -62,8 +62,8 @@ class ArticleItemWidget extends StatelessWidget {
                     children: <Widget>[
                       ClipOval(
                         child: WrapperImage(
-                          imageType: ImageType.random,
-                          url: article.author,
+                          imageType: ImageType.normal,
+                          url: article.avatar,
                           height: 20,
                           width: 20,
                         ),

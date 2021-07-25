@@ -3,6 +3,7 @@ import 'package:fun_android/utils/string_utils.dart';
 class Article {
   String apkLink;
   String author;
+  String avatar;
   /// 2019.10.13 添加分享人,author可能为空
   String shareUser;
   int chapterId;
@@ -36,6 +37,7 @@ class Article {
     Article articleBean = Article();
     articleBean.apkLink = map['apkLink'];
     articleBean.author = map['author'];
+    articleBean.avatar = map['avatar'];
     articleBean.shareUser = map['shareUser'];
     articleBean.chapterId = map['chapterId'];
 //    articleBean.chapterName = map['chapterName'];

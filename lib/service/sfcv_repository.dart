@@ -29,7 +29,7 @@ class SfcvRepository {
   }
 
   // 文章fetchArticles
-  static Future fetchArticles(int pageNum, {int pageSize, int cat, int tag, bool sticky}) async {
+  static Future fetchArticles(int pageNum, {int pageSize, int cat, int tag, bool sticky, String include}) async {
     await Future.delayed(Duration(seconds: 1)); //增加动效
     int perPage = pageSize == null ? ViewStateRefreshListModel.pageSize : pageNum;
     //Map params = Map<dynamic, dynamic>();
@@ -37,14 +37,17 @@ class SfcvRepository {
       'page': pageNum,
       'per_page': perPage
     };
+    if(sticky != null) {
+      params.putIfAbsent('sticky', () => sticky);
+    }
     if(cat != null) {
       params.putIfAbsent('categories', () => cat);
     }
     if(tag != null) {
       params.putIfAbsent('tags', () => tag);
     }
-    if(sticky != null) {
-      params.putIfAbsent('sticky', () => sticky);
+    if(include != null) {
+      params.putIfAbsent('include', () => include);
     }
 
     var response = await sfcvHttp.get('wp-json/sfcv/v1/posts',
@@ -168,21 +171,21 @@ class SfcvRepository {
   }
 
   // 收藏列表
-  static Future fetchCollectList(int pageNum) async {
-    var response = await http.get<Map>('lg/collect/list/$pageNum/json');
-    return response.data['datas']
-        .map<Article>((item) => Article.fromMap(item))
-        .toList();
+  static Future fetchCollectList(int pageNum, {int pageSize}) async {
+    // var response = await http.get<Map>('lg/collect/list/$pageNum/json');
+    // return response.data['datas']
+    //     .map<Article>((item) => Article.fromMap(item))
+    //     .toList();
   }
 
   // 收藏
   static collect(id) async {
-    await http.post('lg/collect/$id/json');
+    await sfcvHttp.post('wp-json/sfcv/v1/favorite/$id');
   }
 
   // 取消收藏
   static unCollect(id) async {
-    await http.post('lg/uncollect_originId/$id/json');
+    await sfcvHttp.delete('wp-json/sfcv/v1/favorite/$id');
   }
 
   // 取消收藏2

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fun_android/model/article.dart';
 import 'package:fun_android/provider/view_state_refresh_list_model.dart';
 import 'package:fun_android/provider/view_state_model.dart';
-import 'package:fun_android/service/wan_android_repository.dart';
+import 'package:fun_android/service/sfcv_repository.dart';
 
 import 'login_model.dart';
 
@@ -23,7 +23,17 @@ class FavouriteListModel extends ViewStateRefreshListModel<Article> {
 
   @override
   Future<List<Article>> loadData({int pageNum}) async {
-    return await WanAndroidRepository.fetchCollectList(pageNum);
+    String sbf = '';
+    GlobalFavouriteStateModel._map.forEach((int key, bool value){
+      if(value) {
+        sbf += key.toString() + ',';
+      }
+    });
+    if(sbf.length == 0) {
+      sbf = '000';
+    }
+
+    return await SfcvRepository.fetchArticles(pageNum, include: sbf);
   }
 }
 
@@ -38,15 +48,15 @@ class FavouriteModel extends ViewStateModel {
     try {
       // article.collect 字段为null,代表是从我的收藏页面进入的 需要调用特殊的取消接口
       if (article.collect == null) {
-        await WanAndroidRepository.unMyCollect(
+        await SfcvRepository.unMyCollect(
             id: article.id, originId: article.originId);
         globalFavouriteModel.removeFavourite(article.originId);
       } else {
         if (article.collect) {
-          await WanAndroidRepository.unCollect(article.id);
+          await SfcvRepository.unCollect(article.id);
           globalFavouriteModel.removeFavourite(article.id);
         } else {
-          await WanAndroidRepository.collect(article.id);
+          await SfcvRepository.collect(article.id);
           globalFavouriteModel.addFavourite(article.id);
         }
       }
@@ -92,8 +102,11 @@ class GlobalFavouriteStateModel extends ChangeNotifier {
 
   /// 用于切换用户后,将该用户所有收藏的文章,对应的状态置为true
   replaceAll(List ids) {
+    if(ids == null) {
+      return;
+    }
     _map.clear();
-    ids.forEach((id) => _map[id] = true);
+    ids.forEach((id) => _map[int.parse(id)] = true);
     notifyListeners();
   }
 
