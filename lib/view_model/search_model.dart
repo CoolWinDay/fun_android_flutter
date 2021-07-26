@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fun_android/service/sfcv_repository.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fun_android/model/search.dart';
@@ -85,6 +86,9 @@ class SearchResultModel extends ViewStateRefreshListModel {
   Future<List> loadData({int pageNum}) async {
     if (keyword.isEmpty) return [];
     searchHistoryModel.addHistory(keyword);
+
+    return await SfcvRepository.fetchArticles(pageNum, search: keyword);
+
     return await WanAndroidRepository.fetchSearchResult(
         key: keyword, pageNum: pageNum);
   }

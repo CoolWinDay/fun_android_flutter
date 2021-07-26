@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fun_android/generated/l10n.dart';
 import 'package:fun_android/ui/widget/app_update.dart';
 
+import '../favourite_list_page.dart';
 import 'home_page.dart';
 import 'project_page.dart';
 import 'structure_page.dart';
@@ -12,7 +13,8 @@ import 'wechat_account_page.dart';
 List<Widget> pages = <Widget>[
   HomePage(),
   ProjectPage(),
-  WechatAccountPage(),
+  // WechatAccountPage(),
+  FavouriteListPage(),
   StructurePage(),
   UserPage()
 ];
@@ -66,8 +68,8 @@ class _TabNavigatorState extends State<TabNavigator> {
             title: Text(S.of(context).tabProject),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_work),
-            title: Text(S.of(context).wechatAccount),
+            icon: Icon(Icons.favorite_border),
+            title: Text(S.of(context).favourites),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.call_split),

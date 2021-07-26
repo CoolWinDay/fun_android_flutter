@@ -25,7 +25,11 @@ class FavouriteListPage extends StatefulWidget {
   _FavouriteListPageState createState() => _FavouriteListPageState();
 }
 
-class _FavouriteListPageState extends State<FavouriteListPage> {
+class _FavouriteListPageState extends State<FavouriteListPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   final GlobalKey<SliverAnimatedListState> listKey =
       GlobalKey<SliverAnimatedListState>();
 

@@ -20,20 +20,9 @@ class FavouriteListModel extends ViewStateRefreshListModel<Article> {
     }
   }
 
-
   @override
   Future<List<Article>> loadData({int pageNum}) async {
-    String sbf = '';
-    GlobalFavouriteStateModel._map.forEach((int key, bool value){
-      if(value) {
-        sbf += key.toString() + ',';
-      }
-    });
-    if(sbf.length == 0) {
-      sbf = '000';
-    }
-
-    return await SfcvRepository.fetchArticles(pageNum, include: sbf);
+    return await SfcvRepository.fetchArticles(pageNum, favorite: true);
   }
 }
 

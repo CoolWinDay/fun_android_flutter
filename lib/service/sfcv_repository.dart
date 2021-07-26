@@ -29,7 +29,8 @@ class SfcvRepository {
   }
 
   // 文章fetchArticles
-  static Future fetchArticles(int pageNum, {int pageSize, int cat, int tag, bool sticky, String include}) async {
+  static Future fetchArticles(int pageNum, {int pageSize, int cat, int tag,
+    bool sticky, bool favorite, String search}) async {
     await Future.delayed(Duration(seconds: 1)); //增加动效
     int perPage = pageSize == null ? ViewStateRefreshListModel.pageSize : pageNum;
     //Map params = Map<dynamic, dynamic>();
@@ -46,8 +47,11 @@ class SfcvRepository {
     if(tag != null) {
       params.putIfAbsent('tags', () => tag);
     }
-    if(include != null) {
-      params.putIfAbsent('include', () => include);
+    if(favorite != null) {
+      params.putIfAbsent('favorite', () => favorite);
+    }
+    if(search != null) {
+      params.putIfAbsent('search', () => search);
     }
 
     var response = await sfcvHttp.get('wp-json/sfcv/v1/posts',
@@ -81,7 +85,7 @@ class SfcvRepository {
     return parentList;
   }
 
-  // 项目分类
+  // 标签
   static Future fetchTreeTags() async {
     var response = await sfcvHttp.get('wp-json/wp/v2/tags');
     List list = response.data.map<Tree>((item) => Tree.fromJsonMapSfcv(item)).toList();
@@ -188,7 +192,7 @@ class SfcvRepository {
     await sfcvHttp.delete('wp-json/sfcv/v1/favorite/$id');
   }
 
-  // 取消收藏2
+  // 取消收藏？？？
   static unMyCollect({id, originId}) async {
     await http.post('lg/uncollect/$id/json',
         queryParameters: {'originId': originId ?? -1});
