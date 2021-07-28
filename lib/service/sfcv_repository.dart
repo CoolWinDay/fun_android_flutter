@@ -13,7 +13,7 @@ class SfcvRepository {
   // 轮播
   static Future fetchBanners() async {
     var response = await sfcvHttp.get('wp-json/sfcv/v1/posts',
-        queryParameters: ({'categories': 7}));
+        queryParameters: ({'categories': 6}));
     return response.data
         .map<Banner>((item) => Banner.fromJsonMap(item))
         .toList();

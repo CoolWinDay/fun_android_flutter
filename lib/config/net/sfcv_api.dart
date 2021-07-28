@@ -10,7 +10,9 @@ final SfcvHttp sfcvHttp = SfcvHttp();
 class SfcvHttp extends BaseHttp {
   @override
   void init() {
-    options.baseUrl = 'http://192.168.18.20/wordpress/';
+    // options.baseUrl = 'http://192.168.18.20/wordpress/';
+    options.baseUrl = 'http://82.157.27.49:8080/wordpress/';
+
     interceptors
       ..add(ApiInterceptor())
       // cookie持久化 异步
