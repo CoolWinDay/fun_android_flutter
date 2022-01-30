@@ -11,7 +11,7 @@ class SfcvHttp extends BaseHttp {
   @override
   void init() {
     // options.baseUrl = 'http://192.168.18.20/wordpress/';
-    options.baseUrl = 'http://82.157.27.49:8080/wordpress/';
+    options.baseUrl = 'http://192.168.18.37:8080/';
 
     interceptors
       ..add(ApiInterceptor())
